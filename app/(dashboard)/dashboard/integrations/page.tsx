@@ -1,47 +1,64 @@
-import { getUser } from "@/lib/db/queries";
-
 import { Embed } from "./embed";
-
-type ActionState = {
-  error?: string;
-  success?: string;
-};
+import { initOpenIntSDK } from "@opensdks/sdk-openint";
 
 export default async function IntegrationsPage() {
-  const fetchToken = async () => {
+  const fetchServerData = async () => {
     try {
-      const response = await fetch("https://openint.dev/api/v0/connect/token", {
-        method: "POST",
+      const openint = initOpenIntSDK({
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
           "x-apikey":
-            "b3JnXzJtbG9Sd0xsdWNGODRFWlBvZUM2Smw5OTNuUTprZXlfMDFKOTBNWE5RUU41RTA4OVpUUVc1RkVWRTY=",
+            "b3JnXzJuOEVhV1ZMN2FFdWN0dTBhSXZ0WDNCNHJsSDprZXlfMDFKOU4wWlREQlYxVjRNVlRTSzZIRzM4S1Y=",
+          "x-resource-connector-name": "qbo",
         },
-        body: JSON.stringify({
-          endUserId: "xxx", // TODO: make dynamic
-          validityInSeconds: 2592000,
-        }),
       });
 
-      if (!response.ok) {
-        console.error(response.body);
-        throw new Error("Failed to fetch token");
-      }
+      const tokenResponse = await openint
+        .POST("/connect/token", {
+          body: {
+            endUserId: "xxx",
+            validityInSeconds: 2592000,
+          },
+        })
+        .then((r) => r.data)
+        .catch((err) => {
+          console.error("Error fetching token:", err);
+          return null;
+        });
 
-      const data = await response.json();
-      return data.token;
+      const token = tokenResponse ? tokenResponse.token : null;
+
+      const balanceSheet = await openint
+        .GET("/unified/accounting/balance-sheet")
+        .then((r) => r.data)
+        .catch((err) => {
+          console.error("Error fetching balance sheet:", err);
+          return null;
+        });
+
+      const profitAndLoss = await openint
+        .GET("/unified/accounting/profit-and-loss")
+        .then((r) => r.data)
+        .catch((err) => {
+          console.error("Error fetching profit and loss:", err);
+          return null;
+        });
+
+      return {
+        token,
+        balanceSheet,
+        profitAndLoss,
+      };
     } catch (err) {
-      console.error("Error fetching token:", err);
-      return null;
+      console.error("Error fetching data:", err);
+      return {
+        token: null,
+        balanceSheet: null,
+        profitAndLoss: null,
+      };
     }
   };
 
-  const clientToken = await fetchToken();
-
-  if (!clientToken) {
-    return <div>Failed to fetch token</div>;
-  }
+  const { token, balanceSheet, profitAndLoss } = await fetchServerData();
 
   return (
     <section className="flex-1 p-4 lg:p-8">
@@ -49,7 +66,11 @@ export default async function IntegrationsPage() {
         Integrations
       </h1>
 
-      <Embed clientToken={clientToken} />
+      <Embed
+        clientToken={token}
+        balanceSheet={balanceSheet}
+        profitAndLoss={profitAndLoss}
+      />
     </section>
   );
 }
