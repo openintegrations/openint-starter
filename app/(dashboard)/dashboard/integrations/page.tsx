@@ -1,5 +1,6 @@
 import { Embed } from "./embed";
 import { initOpenIntSDK } from "@opensdks/sdk-openint";
+import { google } from "googleapis";
 
 export default async function IntegrationsPage() {
   const fetchServerData = async () => {
@@ -28,20 +29,36 @@ export default async function IntegrationsPage() {
 
       const resources = await openint.GET("/core/resource").then((r) => r.data);
 
-      console.log("resources", resources);
+      // search for google drive
+      // then get credentials
+      // then list files
 
-      const balanceSheet = await openint
-        .GET("/unified/accounting/balance-sheet")
-        .then((r) => r.data)
-        .catch((err) => {
-          console.error("Error fetching balance sheet:", err);
-          return null;
-        });
+      const resource = resources.find(
+        (r: any) => r.connectorName === "google" // tbd
+      );
+
+      console.log("google drive resource", JSON.stringify(resource, null, 2));
+      // // Create an OAuth2 client and set credentials
+      const oAuth2Client = new google.auth.OAuth2();
+
+      oAuth2Client.setCredentials({
+        // @ts-ignore
+        access_token: resource?.settings?.oauth?.credentials?.raw?.access_token,
+        // refresh_token:
+        //   // @ts-ignore
+        //   resource?.settings?.oauth?.credentials?.raw?.refresh_token,
+      });
+
+      const drive = google.drive({ version: "v3", auth: oAuth2Client });
+
+      const response = await drive.files.list({
+        pageSize: 20, // Adjust the number of files to list
+        fields: "files(id, name, mimeType, size, webViewLink)", // Specify the fields to retrieve
+      });
 
       return {
         token,
-        balanceSheet,
-        profitAndLoss,
+        files: response.data.files,
       };
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -53,7 +70,7 @@ export default async function IntegrationsPage() {
     }
   };
 
-  const { token, balanceSheet, profitAndLoss } = await fetchServerData();
+  const { token, files } = await fetchServerData();
 
   return (
     <section className="flex-1 p-4 lg:p-8">
@@ -61,11 +78,7 @@ export default async function IntegrationsPage() {
         Integrations
       </h1>
 
-      <Embed
-        clientToken={token}
-        balanceSheet={balanceSheet}
-        profitAndLoss={profitAndLoss}
-      />
+      <Embed clientToken={token} files={files} />
     </section>
   );
 }
