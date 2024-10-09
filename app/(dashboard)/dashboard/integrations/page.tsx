@@ -37,25 +37,57 @@ export default async function IntegrationsPage() {
         (r: any) => r.connectorName === "google" // tbd
       );
 
+      if (!resource) {
+        return {
+          token,
+          files: [],
+        };
+      }
+
       console.log("google drive resource", JSON.stringify(resource, null, 2));
       // // Create an OAuth2 client and set credentials
-      const oAuth2Client = new google.auth.OAuth2();
+      // const oAuth2Client = new google.auth.OAuth2();
 
-      oAuth2Client.setCredentials({
-        // @ts-ignore
-        access_token: resource?.settings?.oauth?.credentials?.raw?.access_token,
-        // refresh_token:
-        //   // @ts-ignore
-        //   resource?.settings?.oauth?.credentials?.raw?.refresh_token,
+      // oAuth2Client.setCredentials({
+      //   // @ts-ignore
+      //   access_token: resource?.settings?.oauth?.credentials?.raw?.access_token,
+      //   // refresh_token:
+      //   //   // @ts-ignore
+      //   //   resource?.settings?.oauth?.credentials?.raw?.refresh_token,
+      // });
+
+      // AMADEO NOTE: this is not working at the proxy level as its failing auth with clerk https://gist.github.com/pellicceama/7100ad9d9207a353d60a691bfc8ff787
+      const drive = google.drive({
+        version: "v3",
+        // proxy: "http://localhost:4000/api/proxy/",
+        baseURL: "http://localhost:4000/api/proxy",
+        adapter: async (options, defaultAdapter) => {
+          // Modify the URL to remove unwanted parts
+          if (options.url) {
+            const url = new URL(options.url, options.baseURL);
+            // Remove unwanted parts from the URL
+            url.pathname = url.pathname.replace(
+              "https://www.googleapis.com",
+              ""
+            );
+            options.url = url.toString();
+          }
+          // Call the default adapter with the modified options
+          return defaultAdapter(options);
+        },
+        headers: {
+          "x-apikey":
+            "b3JnXzJuOEVhV1ZMN2FFdWN0dTBhSXZ0WDNCNHJsSDprZXlfMDFKOU4wWlREQlYxVjRNVlRTSzZIRzM4S1Y=",
+          "x-resource-id": resource.id, // "reso_google_01J9SBP5J673CV9XK46ZVCF42K",
+        },
       });
-
-      const drive = google.drive({ version: "v3", auth: oAuth2Client });
 
       const response = await drive.files.list({
         pageSize: 20, // Adjust the number of files to list
         fields: "files(id, name, mimeType, size, webViewLink)", // Specify the fields to retrieve
       });
 
+      console.log("response", JSON.stringify(response, null, 2));
       return {
         token,
         files: response.data.files,
