@@ -38,6 +38,14 @@ export default async function IntegrationsPage() {
           return null;
         });
 
+      const profitAndLoss = await openint
+        .GET("/unified/accounting/profit-and-loss")
+        .then((r) => r.data)
+        .catch((err) => {
+          console.error("Error fetching profit and loss:", err);
+          return null;
+        });
+
       return {
         token,
         balanceSheet,
