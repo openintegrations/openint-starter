@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@openint/connect':
-    specifier: ^0.2.0
-    version: 0.2.0(react@19.0.0-rc-7771d3a7-20240827)
+    specifier: ^0.2.1
+    version: 0.2.1(react@19.0.0-rc-7771d3a7-20240827)
   '@opensdks/sdk-openint':
     specifier: ^0.0.9
     version: 0.0.9(@opensdks/runtime@0.0.20)
@@ -911,8 +911,8 @@ packages:
       fastq: 1.17.1
     dev: false
 
-  /@openint/connect@0.2.0(react@19.0.0-rc-7771d3a7-20240827):
-    resolution: {integrity: sha512-1az6tbHDOKEm12gD4E1feF8LCtNh4SGa0ewIlvsVXgob2dVWG8qVT6jJz6qIPw8YXCSl4NfS7DrZgo8Cn5LuaA==}
+  /@openint/connect@0.2.1(react@19.0.0-rc-7771d3a7-20240827):
+    resolution: {integrity: sha512-zC0rif4aRQQJ1VHRxmJgPyQGnfUcpwViIUNDsiD/htG4eBGPNcGhL7I7hIslzDfwKIToGT8OSsTqAlcgXZDxjA==}
     peerDependencies:
       react: '*'
     dependencies:
