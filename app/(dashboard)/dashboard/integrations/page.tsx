@@ -5,6 +5,7 @@ export default async function IntegrationsPage() {
   const fetchServerData = async () => {
     try {
       const openint = initOpenIntSDK({
+        baseUrl: "http://localhost:4000/api/v0",
         headers: {
           "x-apikey":
             "b3JnXzJuOEVhV1ZMN2FFdWN0dTBhSXZ0WDNCNHJsSDprZXlfMDFKOU4wWlREQlYxVjRNVlRTSzZIRzM4S1Y=",
@@ -33,7 +34,14 @@ export default async function IntegrationsPage() {
       console.log("resources", resources);
 
       const balanceSheet = await openint
-        .GET("/unified/accounting/balance-sheet")
+        .GET("/unified/accounting/balance-sheet", {
+          params: {
+            query: {
+              start_date: "2024-01-01",
+              end_date: "2024-01-31",
+            },
+          },
+        })
         .then((r) => r.data)
         .catch((err) => {
           console.error("Error fetching balance sheet:", err);
@@ -41,17 +49,98 @@ export default async function IntegrationsPage() {
         });
 
       const profitAndLoss = await openint
-        .GET("/unified/accounting/profit-and-loss", {})
+        .GET("/unified/accounting/profit-and-loss", {
+          params: {
+            query: { date_macro: "Today" },
+          },
+        })
         .then((r) => r.data)
         .catch((err) => {
           console.error("Error fetching profit and loss:", err);
           return null;
         });
 
+      const cashFlow = await openint
+        .GET("/unified/accounting/cash-flow", {
+          params: {
+            query: {
+              date_macro: "Today",
+              sort_order: "desc",
+            },
+          },
+        })
+        .then((r) => r.data)
+        .catch((err) => {
+          console.error("Error fetching cash flow:", err);
+          return null;
+        });
+
+      const transactionList = await openint
+        .GET("/unified/accounting/transaction-list")
+        .then((r) => r.data)
+        .catch((err) => {
+          console.error("Error fetching transaction list:", err);
+          return null;
+        });
+
+      const customerBalance = await openint
+        .GET("/unified/accounting/customer-balance", {
+          params: {
+            query: {
+              customer: "1",
+            },
+          },
+        })
+        .then((r) => r.data)
+        .catch((err) => {
+          console.error("Error fetching customer balance:", err);
+          return null;
+        });
+
+      const customerIncome = await openint
+        .GET("/unified/accounting/customer-income", {
+          params: {
+            query: {
+              customer: "1",
+            },
+          },
+        })
+        .then((r) => r.data)
+        .catch((err) => {
+          console.error("Error fetching customer income:", err);
+          return null;
+        });
+
+      const accounts = await openint
+        .GET("/unified/accounting/account")
+        .then((r) => r.data)
+        .catch((err) => {
+          console.error("Error fetching accounts:", err);
+          return null;
+        });
+
+      console.log(
+        JSON.stringify({
+          token,
+          balanceSheet,
+          profitAndLoss,
+          cashFlow,
+          transactionList,
+          customerBalance,
+          customerIncome,
+          accounts,
+        })
+      );
+
       return {
         token,
         balanceSheet,
         profitAndLoss,
+        cashFlow,
+        transactionList,
+        customerBalance,
+        customerIncome,
+        accounts,
       };
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -59,11 +148,25 @@ export default async function IntegrationsPage() {
         token: null,
         balanceSheet: null,
         profitAndLoss: null,
+        cashFlow: null,
+        transactionList: null,
+        customerBalance: null,
+        customerIncome: null,
+        accounts: null,
       };
     }
   };
 
-  const { token, balanceSheet, profitAndLoss } = await fetchServerData();
+  const {
+    token,
+    balanceSheet,
+    profitAndLoss,
+    cashFlow,
+    transactionList,
+    customerBalance,
+    customerIncome,
+    accounts,
+  } = await fetchServerData();
 
   return (
     <section className="flex-1 p-4 lg:p-8">
@@ -75,6 +178,11 @@ export default async function IntegrationsPage() {
         clientToken={token}
         balanceSheet={balanceSheet}
         profitAndLoss={profitAndLoss}
+        cashFlow={cashFlow}
+        transactionList={transactionList}
+        customerBalance={customerBalance}
+        customerIncome={customerIncome}
+        accounts={accounts}
       />
     </section>
   );
