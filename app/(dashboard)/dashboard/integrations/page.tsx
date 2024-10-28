@@ -5,10 +5,9 @@ export default async function IntegrationsPage() {
   const fetchServerData = async () => {
     try {
       const openint = initOpenIntSDK({
-        baseUrl: "http://localhost:4000/api/v0",
+        // baseUrl: "http://localhost:4000/api/v0",
         headers: {
-          "x-apikey":
-            "b3JnXzJuOEVhV1ZMN2FFdWN0dTBhSXZ0WDNCNHJsSDprZXlfMDFKOU4wWlREQlYxVjRNVlRTSzZIRzM4S1Y=",
+          "x-apikey": "x-api-key-goes-here",
           "x-resource-connector-name": "qbo",
         },
       });
@@ -97,6 +96,22 @@ export default async function IntegrationsPage() {
           return null;
         });
 
+      const customerList = await openint
+        .request(
+          "GET",
+          "https://quickbooks.api.intuit.com/v3/company/{realmId}/customer",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((r) => r.data)
+        .catch((err) => {
+          console.error("Error fetching customer list:", err);
+          return null;
+        });
+
       const customerIncome = await openint
         .GET("/unified/accounting/customer-income", {
           params: {
@@ -119,6 +134,28 @@ export default async function IntegrationsPage() {
           return null;
         });
 
+      const bankAccounts = await openint
+        .GET("/unified/accounting/bank-accounts", {
+          params: {
+            query: {
+              customer: "1",
+            },
+          },
+        })
+        .then((r) => r.data)
+        .catch((err) => {
+          console.error("Error fetching bank accounts:", err);
+          return null;
+        });
+
+      const receipt = await openint.GET("/unified/accounting/payment-receipt", {
+        params: {
+          query: {
+            customer_transaction_id: "1",
+          },
+        },
+      });
+
       console.log(
         JSON.stringify({
           token,
@@ -129,6 +166,9 @@ export default async function IntegrationsPage() {
           customerBalance,
           customerIncome,
           accounts,
+          customerList,
+          bankAccounts,
+          receipt,
         })
       );
 

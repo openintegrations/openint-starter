@@ -28,7 +28,7 @@ export function Embed({
       <Card style={{ height: "700px" }}>
         <CardContent>
           <OpenIntConnectEmbed
-            baseUrl={"http://localhost:4000"}
+            // baseUrl={"http://localhost:4000"}
             width={800}
             height={600}
             params={{

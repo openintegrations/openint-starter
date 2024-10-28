@@ -8,8 +8,7 @@ export default async function IntegrationsPage() {
       // const openint = initOpenIntSDK({
       //   baseURL: "https://openint.dev/api/v0",
       //   headers: {
-      //     "x-apikey":
-      //       "b3JnXzJuOEVhV1ZMN2FFdWN0dTBhSXZ0WDNCNHJsSDprZXlfMDFKOU4wWlREQlYxVjRNVlRTSzZIRzM4S1Y=",
+      //     "x-apikey": "x-api-key-goes-here",
       //   },
       // });
 
@@ -34,8 +33,7 @@ export default async function IntegrationsPage() {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            "x-apikey":
-              "b3JnXzJuOEVhV1ZMN2FFdWN0dTBhSXZ0WDNCNHJsSDprZXlfMDFKOU4wWlREQlYxVjRNVlRTSzZIRzM4S1Y=",
+            "x-apikey": "x-api-key-goes-here",
           },
           body: JSON.stringify({
             endUserId: "xxx", // TODO: make dynamic
@@ -83,8 +81,7 @@ export default async function IntegrationsPage() {
       //     headers: {
       //       // TODO: discuss with tony
       //       Authorization: `Bearer ${token}`,
-      //       // "x-apikey":
-      //       //   "b3JnXzJuOEVhV1ZMN2FFdWN0dTBhSXZ0WDNCNHJsSDprZXlfMDFKOU4wWlREQlYxVjRNVlRTSzZIRzM4S1Y=",
+      //       "x-apikey": "x-api-key-goes-here",
       //     },
       //   })
       //   .then((r) => r.data);
@@ -138,8 +135,7 @@ export default async function IntegrationsPage() {
       //     return defaultAdapter(options);
       //   },
       //   headers: {
-      //     "x-apikey":
-      //       "b3JnXzJuOEVhV1ZMN2FFdWN0dTBhSXZ0WDNCNHJsSDprZXlfMDFKOU4wWlREQlYxVjRNVlRTSzZIRzM4S1Y=",
+      //     "x-apikey": "x-api-key-goes-here",
       //     "x-resource-id": resource.id, // "reso_google_01J9SBP5J673CV9XK46ZVCF42K",
       //   },
       // });
