@@ -196,6 +196,7 @@ async function writeEnvFile(envVars: Record<string, string>) {
 async function main() {
   // await checkStripeCLI();
 
+  const OPENINT_API_KEY = "OPENINT_API_KEY_GOES_HERE";
   const POSTGRES_URL = await getPostgresURL();
   const STRIPE_SECRET_KEY = await getStripeSecretKey();
   const STRIPE_WEBHOOK_SECRET = await createStripeWebhook();

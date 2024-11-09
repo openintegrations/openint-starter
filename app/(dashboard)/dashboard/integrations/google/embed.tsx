@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { OpenIntConnectEmbed } from "@openint/connect";
-import { useEffect, useState } from "react";
 
 export function Embed({
   clientToken,
@@ -11,40 +10,6 @@ export function Embed({
   clientToken: string;
   files: any[];
 }) {
-  // const [resources, setResources] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchResources = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "http://localhost:4000/api/v0/core/resource",
-  //         {
-  //           method: "GET",
-  //           headers: {
-  //             Accept: "application/json",
-  //             "Content-Type": "application/json",
-  //             Authorization: `Bearer ${clientToken}`,
-  //           },
-  //         }
-  //       );
-
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch resources");
-  //       }
-
-  //       const data = await response.json();
-
-  //       console.log("CORS data", data);
-  //       setResources(data);
-  //     } catch (error) {
-  //       console.error("Error fetching resources:", error);
-  //     }
-  //   };
-
-  //   if (clientToken) {
-  //     fetchResources();
-  //   }
-  // }, [clientToken]);
   return (
     <>
       <Card>

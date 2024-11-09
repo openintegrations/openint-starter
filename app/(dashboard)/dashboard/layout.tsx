@@ -19,7 +19,26 @@ export default function DashboardLayout({
     { href: "/dashboard/general", icon: Settings, label: "General" },
     { href: "/dashboard/activity", icon: Activity, label: "Activity" },
     { href: "/dashboard/security", icon: Shield, label: "Security" },
-    { href: "/dashboard/integrations", icon: Flame, label: "Integrations" },
+    {
+      href: "/dashboard/integrations/sync",
+      icon: Flame,
+      label: "Basic Sync Integration",
+    },
+    {
+      href: "/dashboard/integrations/sales",
+      icon: Flame,
+      label: "Sales Integrations",
+    },
+    {
+      href: "/dashboard/integrations/finance",
+      icon: Flame,
+      label: "Finance Integrations",
+    },
+    {
+      href: "/dashboard/integrations/google",
+      icon: Flame,
+      label: "Google Integrations",
+    },
   ];
 
   return (

@@ -5,27 +5,6 @@ import { google } from "googleapis";
 export default async function IntegrationsPage() {
   const fetchServerData = async () => {
     try {
-      // const openint = initOpenIntSDK({
-      //   baseURL: "https://openint.dev/api/v0",
-      //   headers: {
-      //     "x-apikey": "x-api-key-goes-here",
-      //   },
-      // });
-
-      // const tokenResponse = await openint
-      //   .POST("/connect/token", {
-      //     body: {
-      //       endUserId: "xxx",
-      //     },
-      //   })
-      //   .then((r) => r.data)
-      //   .catch((err) => {
-      //     console.error("Error fetching token:", err);
-      //     return null;
-      //   });
-
-      // const token = tokenResponse?.token;
-      // Fetch token
       const tokenResponse = await fetch(
         "https://openint.dev/api/v0/connect/token",
         {
@@ -33,10 +12,10 @@ export default async function IntegrationsPage() {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            "x-apikey": "x-api-key-goes-here",
+            "x-apikey": process.env.OPENINT_API_KEY ?? "",
           },
           body: JSON.stringify({
-            endUserId: "xxx", // TODO: make dynamic
+            endUserId: "END_USER_ID",
             validityInSeconds: 2592000,
           }),
         }
@@ -81,7 +60,7 @@ export default async function IntegrationsPage() {
       //     headers: {
       //       // TODO: discuss with tony
       //       Authorization: `Bearer ${token}`,
-      //       "x-apikey": "x-api-key-goes-here",
+      //       "x-apikey": process.env.OPENINT_API_KEY ?? "",
       //     },
       //   })
       //   .then((r) => r.data);
@@ -115,7 +94,7 @@ export default async function IntegrationsPage() {
         //   resource?.settings?.oauth?.credentials?.raw?.refresh_token,
       });
 
-      // AMADEO NOTE: this is not working at the proxy level as its failing auth with clerk https://gist.github.com/pellicceama/7100ad9d9207a353d60a691bfc8ff787
+      // NOTE: this is not working at the proxy level as its failing auth with clerk https://gist.github.com/pellicceama/7100ad9d9207a353d60a691bfc8ff787
       // const drive = google.drive({
       //   version: "v3",
       //   // proxy: "https://openint.dev/api/proxy/",
@@ -135,7 +114,7 @@ export default async function IntegrationsPage() {
       //     return defaultAdapter(options);
       //   },
       //   headers: {
-      //     "x-apikey": "x-api-key-goes-here",
+      //     "x-apikey": process.env.OPENINT_API_KEY ?? "",
       //     "x-resource-id": resource.id, // "reso_google_01J9SBP5J673CV9XK46ZVCF42K",
       //   },
       // });
