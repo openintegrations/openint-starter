@@ -35,9 +35,9 @@ export default function DashboardLayout({
       label: "Finance Integrations",
     },
     {
-      href: "/dashboard/integrations/google",
+      href: "/dashboard/integrations/files",
       icon: Flame,
-      label: "Google Integrations",
+      label: "File Integrations",
     },
   ];
 

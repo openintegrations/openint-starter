@@ -2,9 +2,7 @@ import { Embed } from "./embed";
 import { initOpenIntSDK } from "@opensdks/sdk-openint";
 
 export default async function IntegrationsPage() {
-  const openint = initOpenIntSDK({
-    headers: { "x-apikey": process.env.OPENINT_API_KEY ?? "" },
-  });
+  const openint = initOpenIntSDK({apiKey});
 
   const tokenResponse = await openint
     .POST("/connect/token", {
