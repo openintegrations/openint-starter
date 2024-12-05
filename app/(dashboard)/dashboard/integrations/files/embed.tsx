@@ -9,6 +9,7 @@ export function Embed({
   link: string;
   files: any[];
 }) {
+  console.log(files);
   return (
     <>
       <Card>
@@ -61,7 +62,7 @@ export function Embed({
                   </tr>
                   <tr>
                     <td className="border p-2">Mime Type</td>
-                    <td className="border p-2 text-right">{file.mimeType || 'N/A'}</td>
+                    <td className="border p-2 text-right">{file.mime_type || 'N/A'}</td>
                   </tr>
                   <tr>
                     <td className="border p-2">Size</td>
