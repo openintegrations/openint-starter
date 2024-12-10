@@ -2,7 +2,7 @@ import { Embed } from "./embed";
 import { initOpenIntSDK } from "@opensdks/sdk-openint";
 
 export default async function IntegrationsPage() {
-  const endUserId = "aaa";
+  const customerId = "aaa";
   const fetchServerData = async () => {
     try {
       const openint = initOpenIntSDK({
@@ -12,7 +12,7 @@ export default async function IntegrationsPage() {
       
       const magicLinkResponse = await openint
         .POST("/connect/magic-link", {
-          body: { endUserId, validityInSeconds: 2592000 },
+          body: { customerId, validityInSeconds: 2592000 },
         })
         .then((r) => r.data)
         .catch((err) => {
@@ -22,28 +22,28 @@ export default async function IntegrationsPage() {
 
       const magicLink = magicLinkResponse?.url;
       
-      const resourcesResponse = await openint
-        .GET("/core/resource", {
+      const connectionsResponse = await openint
+        .GET("/core/connection", {
           params: {
             query: {
-              endUserId,
+              customerId,
               connectorName: 'microsoft'
             },
           },
         })
         .then((r) => r.data);
 
-      if(resourcesResponse?.length > 0) {
-        const resourceId = resourcesResponse[0].id;
+      if(connectionsResponse?.length > 0) {
+        const connectionId = connectionsResponse[0].id;
         const drive = await openint.GET("/unified/file-storage/drive", {
           headers: {
-            'x-resource-id': resourceId,
+            'x-connection-id': connectionId,
           },
         }).then((r) => r.data);
 
         const files = await openint.GET("/unified/file-storage/drive/{driveId}/file", {
           headers: {
-            'x-resource-id': resourceId,
+            'x-connection-id': connectionId,
           },
           params: {
             path: {

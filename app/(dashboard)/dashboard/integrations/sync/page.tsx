@@ -2,11 +2,11 @@ import { Embed } from "./embed";
 import { initOpenIntSDK } from "@opensdks/sdk-openint";
 
 export default async function IntegrationsPage() {
-  const openint = initOpenIntSDK({apiKey});
+  const openint = initOpenIntSDK({apiKey: process.env.OPENINT_API_KEY ?? ""});
 
   const tokenResponse = await openint
     .POST("/connect/token", {
-      body: { endUserId: "END_USER_ID" },
+      body: { customerId: "END_USER_ID" },
     })
     .catch((err) => {
       console.error("Error fetching token:", err);

@@ -13,7 +13,7 @@ export default async function IntegrationsPage() {
       const tokenResponse = await openint
         .POST("/connect/token", {
           body: {
-            endUserId: "xxx",
+            customerId: "xxx",
           },
         })
         .then((r) => r.data)
@@ -28,7 +28,7 @@ export default async function IntegrationsPage() {
         openint
           .GET("/unified/accounting/balance-sheet", {
             headers: {
-              "x-resource-connector-name": "qbo",
+              "x-connection-connector-name": "qbo",
             },
             params: {
               query: {
@@ -46,7 +46,7 @@ export default async function IntegrationsPage() {
         openint
           .GET("/unified/accounting/profit-and-loss", {
             headers: {
-              "x-resource-connector-name": "qbo",
+              "x-connection-connector-name": "qbo",
             },
             params: {
               query: { date_macro: "Today" },
