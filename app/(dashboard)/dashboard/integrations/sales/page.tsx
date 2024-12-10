@@ -13,7 +13,7 @@ export default async function IntegrationsPage() {
       const tokenResponse = await openint
         .POST("/connect/token", {
           body: {
-            endUserId: "END_USER_ID",
+            customerId: "END_USER_ID",
           },
         })
         .then((r) => r.data)
@@ -24,8 +24,8 @@ export default async function IntegrationsPage() {
 
       const token = tokenResponse?.token ?? "";
 
-      const resourcesResponse = await fetch(
-        "https://openint.dev/api/v0/core/resource?forceRefresh=true",
+      const connectionsResponse = await fetch(
+        "https://openint.dev/api/v0/core/connection?forceRefresh=true",
         {
           headers: {
             Accept: "application/json",
@@ -34,19 +34,19 @@ export default async function IntegrationsPage() {
         }
       );
 
-      if (!resourcesResponse.ok) {
-        console.error(await resourcesResponse.text());
-        throw new Error("Failed to fetch resources");
+      if (!connectionsResponse.ok) {
+        console.error(await connectionsResponse.text());
+        throw new Error("Failed to fetch connections");
       }
 
-      const resources = await resourcesResponse.json();
+      const connections = await connectionsResponse.json();
 
-      const resource = resources.find(
+      const connection = connections.find(
         (r: any) => r.connectorName === "hubspot"
       );
 
-      if (!resource) {
-        console.warn("No hubspot resource found ");
+      if (!connection) {
+        console.warn("No hubspot connection found ");
         return {
           token,
         };
@@ -56,7 +56,7 @@ export default async function IntegrationsPage() {
         return openint
           .GET(path, {
             headers: {
-              "x-resource-id": resource?.id,
+              "x-connection-id": connection?.id,
             },
           })
           .then((r) => r.data)

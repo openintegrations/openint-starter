@@ -43,7 +43,7 @@ Finally, set the hardcoded `END_USER_ID` in the `app/(dashboard)/dashboard/integ
 ```js
 const tokenResponse = await openint
   .POST("/connect/token", {
-    body: { endUserId: "END_USER_ID" },
+    body: { customerId: "END_USER_ID" },
   })
   .catch((err) => {
     console.error("Error fetching token:", err);
