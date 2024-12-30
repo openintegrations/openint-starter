@@ -67,15 +67,7 @@ You can point the OpenInt API to a new host by passing `baseUrl` to the `initOpe
 
 ```js
 const openint = initOpenIntSDK({
-  baseUrl: "http://localhost:4000",
-});
-```
-
-to the init openint function.
-
-```js
-const openint = initOpenIntSDK({
-  baseUrl: "http://localhost:4000",
+  baseUrl: "http://localhost:4000/api/v0",
   headers: { "x-apikey": process.env.OPENINT_API_KEY ?? "" },
 });
 ```
