@@ -4,7 +4,7 @@ import { initOpenIntSDK } from "@opensdks/sdk-openint";
 export default async function IntegrationsPage() {
   const openint = initOpenIntSDK({
     apiKey: process.env.OPENINT_API_KEY ?? "",
-    // baseUrl: "http://localhost:4000/api/v0",
+    baseUrl: "https://openint-git-starbasedb-openint-dev.vercel.app/api/v0",
   });
 
   const tokenResponse = await openint

@@ -7,8 +7,11 @@ import React from "react";
 export function Embed({ clientToken }: { clientToken: string }) {
   // example for listening to events
   setTimeout(() => {
-    OpenIntFrontend.listen((event: any) => {
-      console.log("oint event", event);
+    OpenIntFrontend.listen((notification: any) => {
+      if (notification.event.name === "connect/connection-connected") {
+        console.log("OpenInt Connection Added");
+        window.location.reload();
+      }
     });
   }, 1000);
 
@@ -20,7 +23,7 @@ export function Embed({ clientToken }: { clientToken: string }) {
             width={800}
             height={700}
             params={{ token: clientToken }}
-            // baseUrl="http://localhost:4000"
+            baseUrl="https://openint-git-starbasedb-openint-dev.vercel.app"
           />
         </CardContent>
       </Card>
