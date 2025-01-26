@@ -6,7 +6,7 @@ export default async function IntegrationsPage() {
   const fetchServerData = async () => {
     try {
       const openint = initOpenIntSDK({
-        baseUrl: "http://localhost:4000/api/v0",
+        // baseUrl: "http://localhost:4000/api/v0",
         apiKey: process.env.OPENINT_API_KEY ?? "",
       });
 

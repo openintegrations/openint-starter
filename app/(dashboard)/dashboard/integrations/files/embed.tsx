@@ -15,8 +15,7 @@ export function Embed({
 }) {
   useEffect(() => {
     if (filePickerLink) {
-      OpenIntFrontend.openFilePicker({
-        url: filePickerLink,
+      OpenIntFrontend.listenFilePicker({
         onSelect: (files) => {
           console.log("files selected", files);
         },
@@ -25,11 +24,6 @@ export function Embed({
         },
       });
     }
-    // if (embedConnectLink) {
-    //   OpenIntFrontend.openMagicLink({
-    //     url: embedConnectLink,
-    //   });
-    // }
   }, [filePickerLink, embedConnectLink]);
 
   return (
@@ -123,12 +117,6 @@ export function Embed({
                         : "N/A"}
                     </td>
                   </tr>
-                  {/* <tr>
-                    <td className="border p-2">Raw Data</td>
-                    <td className="border p-2">
-                      {file.raw_data ? JSON.stringify(file.raw_data) : "N/A"}
-                    </td>
-                  </tr> */}
                 </tbody>
               </table>
             </CardContent>
