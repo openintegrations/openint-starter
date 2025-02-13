@@ -39,6 +39,11 @@ export default function DashboardLayout({
       icon: Flame,
       label: "File Integrations",
     },
+    {
+      href: "/dashboard/integrations/connect-only",
+      icon: Flame,
+      label: "Connect Only Integrations",
+    },
   ];
 
   return (
