@@ -20,29 +20,9 @@ export default function DashboardLayout({
     { href: "/dashboard/activity", icon: Activity, label: "Activity" },
     { href: "/dashboard/security", icon: Shield, label: "Security" },
     {
-      href: "/dashboard/integrations/sync",
+      href: "/dashboard/integrations/connect",
       icon: Flame,
-      label: "Basic Sync Integration",
-    },
-    {
-      href: "/dashboard/integrations/sales",
-      icon: Flame,
-      label: "Sales Integrations",
-    },
-    {
-      href: "/dashboard/integrations/finance",
-      icon: Flame,
-      label: "Finance Integrations",
-    },
-    {
-      href: "/dashboard/integrations/files",
-      icon: Flame,
-      label: "File Integrations",
-    },
-    {
-      href: "/dashboard/integrations/connect-only",
-      icon: Flame,
-      label: "Connect Only Integrations",
+      label: "Integrations",
     },
   ];
 
